@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2> Conversations</h2>
+<div class="d-flex flex-wrap align-items-center justify-content-center">
+{% if conversations %}
+{% for conversation in conversations %}
+
+<a href="{% url 'conversation:detail' conversation.id %}"><div class="card  m-3 bg-dark text-light " >
+    <div class="card-header">Conversation with {% if conversation.messages.first.sent_to != request.user %}  {{ conversation.messages.first.sent_to }} {% else %} {{ conversation.messages.first.created_by }} {% endif %}
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Last message:</h5>
+        <p class="card-text">{{ conversation.messages.last.content }}</p>
+        <p class="card-text"><small>Created at: {{ conversation.messages.last.created_at }} by {{ conversation.messages.last.created_by }}</small></p>
+    </div>
+</div></a>
+
+
+
+{% endfor %}
+{% else %}
+
+<h3>No Conversations</h3>
+
+{% endif %}
+
+</div>
+{% endblock %}
+

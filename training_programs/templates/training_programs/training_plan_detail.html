@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>{{ training_plan.name }} - Detale planu treningowego</h2>
+
+    <table border="1"  class="table table-striped table-dark">
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Exercise</th>
+                <th>Sets</th>
+                <th>Repetition</th>
+                <th>Break (s)</th>
+                <th>Tempo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for training_day in training_days %}
+                <tr>
+                    <td>{{ training_day.day_number }}</td>
+                    <td>
+                        {% for exercise_in_plan in training_day.exerciseinplan_set.all %}
+                            {{ exercise_in_plan.exercise.name }}<br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for exercise_in_plan in training_day.exerciseinplan_set.all %}
+                            {{ exercise_in_plan.sets_amount }}<br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for exercise_in_plan in training_day.exerciseinplan_set.all %}
+                            {{ exercise_in_plan.reps_amount }}<br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for exercise_in_plan in training_day.exerciseinplan_set.all %}
+                            {{ exercise_in_plan.pause }}<br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for exercise_in_plan in training_day.exerciseinplan_set.all %}
+                            {{ exercise_in_plan.tempo }}<br>
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if user.is_trainer %}
+    <a href="{% url 'training_programs:add_exercise_to_plan' training_plan.id %}"><button class="btn btn-outline-light btn-lg px-5" type="submit">Add exercise</button></a>
+    {% endif %}
+{% endblock %}>

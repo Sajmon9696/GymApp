@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Dodaj dzień treningowy do planu "{{ training_plan.name }}"</h2>
+    <form method="post" action="{% url 'training_programs:add_exercise_to_plan' training_plan_id=training_plan.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Dodaj dzień treningowy</button>
+    </form>
+{% endblock %}>

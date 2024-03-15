@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Ask for plan detail</h2>
+
+<h3><strong>Name:</strong>{{ plan_question.user }}</h3>
+<p><strong>Goals:</strong> {{ plan_question.goals }}</p>
+<p><strong>Time for 1 training instance:</strong> {{ plan_question.time_of_one_training_in_minutes }}</p>
+<p><strong>Training days a week:</strong> {{ plan_question.amount_of_days }}</p>
+
+<p><strong>Prefer exercises</strong> {{ plan_question.prefer_exercises }}</p>
+
+
+
+  <!-- Przykład linku powrotu do listy obiektów -->
+
+{% if request.user.is_trainer %}
+<a href="{% url 'training_programs:plan_question' %}"><button class="btn btn-outline-light btn-lg px-5" type="submit">Return to list</button></a>
+  <a href="{% url 'training_programs:create_training_plan' %}?user_id={{plan_question.user.id}}"><button class="btn btn-outline-light btn-lg px-5" type="submit">Create Program</button></a>
+{% else %}
+<a href="{% url 'training_programs:edit_plan_question' plan_question.id %}"><button class="btn btn-outline-light btn-lg px-5" type="submit">Edit your question</button></a>
+<a href="{% url 'training_programs:delete_plan_question' plan_question.id %}"><button class="btn btn-outline-danger btn-lg px-5 " type="submit">Delete your question</button></a>
+{% endif %}
+{% endblock %}

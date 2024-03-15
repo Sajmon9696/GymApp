@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="rounded-pill p-3 d-inline-flex align-items-center justify-content-center bg-dark bg-gradient border border-dark-subtle">
+    <h1 class="text-light">Welcome to GymApp</h1>
+</div>
+<div class="d-flex flex-wrap align-items-center justify-content-center">
+    {% if user.is_authenticated %}
+    <div class="card m-4 bg-dark text-light border border-light" style="width: 18rem;">
+        <a href="{% url 'accounts:update_user_profile' %}" class="btn btn-dark">
+            <img src="media/animacje_00002_.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Update profile</h5>
+            </div>
+        </a>
+    </div>
+    <div class="card m-4 bg-dark text-light border border-light" style="width: 18rem;">
+        <a href="{% url 'accounts:user_profile' %}" class="btn btn-dark">
+            <img src="media/trainers_photo_00001_.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Profile</h5>
+            </div>
+        </a>
+    </div>
+    <div class="card m-4 bg-dark text-light border border-light" style="width: 18rem;">
+        <a href="{% url 'training_programs:view_training_plans' %}" class="btn btn-dark">
+            <img src="media/trainers_photo_00006_.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Your plans</h5>
+
+            </div>
+        </a>
+    </div>
+
+
+    {% if user.is_trainer %}
+    <div class="card m-4 bg-dark text-light border border-light" style="width: 18rem;">
+        <a href="{% url 'training_programs:create_training_plan' %}" class="btn btn-dark">
+            <img src="media/trainers_photo_00006_.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Create plan</h5>
+            </div>
+        </a>
+    </div>
+    <div class="card m-4 bg-dark text-light border border-light" style="width: 18rem;">
+        <a href="{% url 'training_programs:add_exercise' %}" class="btn btn-dark">
+            <img src="media/trainers_photo_00006_.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Add Exercise</h5>
+
+            </div>
+        </a>
+    </div>
+    <div class="card m-4 bg-dark text-light border border-light" style="width: 18rem;">
+        <a href="{% url 'training_programs:plan_question' %}" class="btn btn-dark">
+            <img src="media/trainers_photo_00006_.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Plans to make</h5>
+
+            </div>
+        </a>
+    </div>
+    {% else %}
+    <a href=""></a>
+    <div class="card m-4 bg-dark text-light border border-light" style="width: 18rem;">
+        <a href="{% url 'training_programs:plan_request' %}" class="btn btn-dark">
+            <img src="media/trainers_photo_00006_.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Ask for plan</h5>
+
+            </div>
+        </a>
+    </div>
+    {% endif %}
+
+
+    {% else %}
+
+
+    <div class="card m-4 bg-dark text-light border border-light" style="width: 18rem;">
+        <a href="{% url 'training_programs:display_exercises' %}" class="btn btn-dark">
+            <img src="media/animacje_00002_.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Join team</h5>
+
+            </div>
+        </a>
+    </div>
+    <div class="card m-4 bg-dark text-light border border-light" style="width: 18rem;">
+        <a href="{% url 'training_programs:display_exercises' %}" class="btn btn-dark">
+            <img src="media/trainers_photo_00001_.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Ask for plan</h5>
+
+            </div>
+        </a>
+    </div>
+
+    {% endif %}
+    <div class="card m-4 bg-dark text-light border border-light" style="width: 18rem;">
+        <a href="{% url 'training_programs:display_exercises' %}" class="btn btn-dark">
+            <img src="media/trainers_photo_00006_.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Exercises</h5>
+
+            </div>
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>List of plans to make</h2>
+
+<div class="container d-flex flex-wrap justify-content-center">
+    {% for plan_q in plan_question %}
+    <ul class="list-group mt-5 text-white">
+        <a href="{% url 'training_programs:plan_question_detail' pk=plan_q.id %}">
+            <li class="list-group-item d-flex justify-content-between align-content-center bg-dark m-3 text-white">
+
+            <div class="d-flex flex-row">
+                <img src="https://img.icons8.com/color/100/000000/folder-invoices.png" width="40"/>
+                <div class="ml-2">
+                    <h6 class="mb-0">{{ plan_q.user }}</h6>
+                    <div class="about">
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+
+
+        </li>
+        </a>
+
+    </ul>
+    {% endfor %}
+
+</div>
+{% endblock %}>

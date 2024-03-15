@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if request.user.is_trainer %}
+<h2>List of program you made</h2>
+{% else %}
+<h2>List of program you own</h2>
+{% endif %}
+
+<table class="table table-striped table-dark">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Program Name</th>
+        <th scope="col">Owner</th>
+        <th scope="col">Made by</th>
+        <th scope="col">Detail</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for training_plan in training_plans %}
+    <tr>
+        <th scope="row">{{ training_plan.id }}</th>
+        <td>{{ training_plan.name }}</td>
+        <td>{{ training_plan.plan_owner }}</td>
+        <td>{{ training_plan.trainer }}</td>
+        <td><a href="{% url 'training_programs:training_plan_detail' training_plan.id %}">
+            <button class="btn btn-outline-light btn-sm px-5" type="submit">Go to Detail</button>
+        </a></td>
+
+    </tr>
+    <a href="{% url 'training_programs:training_plan_detail' training_plan.id %}">
+        {% endfor %}</a>
+    </tbody>
+</table>
+
+
+{% endblock %}>

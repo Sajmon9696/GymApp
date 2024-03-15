@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="rounded-pill p-3 m-3 d-inline-flex align-items-center justify-content-center bg-dark bg-gradient border border-dark-subtle">
+    <h1 class="text-light">Exercises</h1>
+</div>
+<div class="d-flex justify-content-center">
+    {% for exercise in exercises %}
+
+    <div class="card p-3 m-3 bg-dark text-light" style="width: 18rem;">
+        <a href="{% url 'training_programs:exercise_detail' exercise.id %}" class="btn btn-dark">
+
+            <div class="card-body">
+                <h5 class="card-title">{{exercise.name}}</h5>
+                <p class="card-text">{{exercise.description}}</p>
+
+            </div>
+        </a>
+    </div>
+
+
+    {% empty %}
+    <h2>No exercises</h2>
+
+    {% endfor %}
+</div>
+
+{% endblock %}>

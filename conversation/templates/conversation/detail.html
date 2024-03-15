@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Conversation with {% if request.user %}{{ conversation.members.last.username }}{% else %}{{ conversation.members.first.username }}{% endif %}</h2>
+{% for message in conversation.messages.all %}
+
+<div class="bg-dark text-light m-2 d-flex {% if message.created_by == request.user %} justify-content-end {% endif %} border rounded-pill border-dark-subtle pr-3 pl-3 pt-3">
+    <div>
+        <p>{{ message.content }} - <STRONG>{{ message.created_by.username }} </STRONG></p>
+        <small class="mt-2"><p>Created at: {{ message.created_at }}</p></small>
+    </div>
+</div>
+
+{% endfor %}
+
+{% endblock %}
+
+
