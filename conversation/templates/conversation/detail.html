@@ -2,7 +2,8 @@
 
 {% block content %}
 
-<h2>Conversation with {% if request.user %}{{ conversation.members.last.username }}{% else %}{{ conversation.members.first.username }}{% endif %}</h2>
+<h2>Conversation with {% if conversation.members.first != request.user %}
+    {{ conversation.members.first }} {% else %} {{ conversation.members.last }} {% endif %}</h2>
 {% for message in conversation.messages.all %}
 
 <div class="bg-dark text-light m-2 d-flex {% if message.created_by == request.user %} justify-content-end {% endif %} border rounded-pill border-dark-subtle pr-3 pl-3 pt-3">
@@ -13,7 +14,13 @@
 </div>
 
 {% endfor %}
-
+<div>
+    <form method="post" action="{{conversation.id}}">
+        {% csrf_token %}
+        {{form}}
+        <button class="btn btn-outline-light btn-lg px-5" type="submit">Send Message</button>
+    </form>
+</div>
 {% endblock %}
 
 

@@ -6,8 +6,8 @@ from .models import ConversationMessage
 class ConversationMessageForm(forms.ModelForm):
     class Meta:
         model = ConversationMessage
-        fields = ('content','sent_to')
+        fields = ('content', 'sent_to')
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['sent_to'].queryset = User.objects.filter(is_trainer=True)
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['sent_to'].queryset = User.objects.filter(is_trainer=True)
