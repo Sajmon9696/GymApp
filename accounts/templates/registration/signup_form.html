@@ -18,33 +18,50 @@
                             <div class="form-outline form-white mb-4">
                                 <label class="form-label">Username</label>
                                 {{ form.username }}
-
+                                {% for error in form.username.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
                             </div>
 
                             <div class="form-outline form-white mb-4">
                                 <label class="form-label">First Name</label>
                                 {{ form.first_name }}
+                                {% for error in form.first_name.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
 
                             </div>
                             <div class="form-outline form-white mb-4">
                                 <label class="form-label">Last Name</label>
                                 {{ form.last_name }}
+                                {% for error in form.last_name.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
 
                             </div>
                             <div class="form-outline form-white mb-4">
                                 <label class="form-label">E-mail</label>
                                 {{ form.email }}
+                                {% for error in form.email.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
 
                             </div>
                             <div class="form-outline form-white mb-4">
                                 <label class="form-label">Password</label>
                                 {{ form.password1 }}
+                                {% for error in form.password1.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
+
 
                             </div>
                             <div class="form-outline form-white mb-4">
                                 <label class="form-label">Repeat Password</label>
                                 {{ form.password2 }}
-
+                                {% for error in form.password2.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
                             </div>
 
 

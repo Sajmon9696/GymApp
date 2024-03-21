@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import ForeignKey, PositiveSmallIntegerField, Model, DO_NOTHING, CharField
-
+from .validators import validate_alpha, validate_name_length
 
 # Create your models here.
 
@@ -22,6 +22,8 @@ class User(AbstractUser):
     bench_press_record_kg = PositiveSmallIntegerField(null=True, blank=True)
     pull_up_record_amount = PositiveSmallIntegerField(null=True, blank=True)
     dips_record_amount = PositiveSmallIntegerField(null=True, blank=True)
+    first_name = models.CharField(max_length=30, validators=[validate_alpha, validate_name_length])
+    last_name = models.CharField(max_length=30, validators=[validate_alpha, validate_name_length])
 
     def __str__(self):
         return f'{self.username}'

@@ -1,7 +1,6 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
-from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView
 from accounts.forms import SignUpForm, UserProfileForm, MyLoginForm
@@ -14,11 +13,11 @@ class MyLoginView(LoginView):
     form_class = MyLoginForm
     template_name = 'registration/login.html'
 
+
 class SignUpView(CreateView):
     model = User
     form_class = SignUpForm
     template_name = 'registration/signup_form.html'
-
 
     def form_valid(self, form):
         user = form.save()
@@ -29,10 +28,12 @@ class SignUpView(CreateView):
 def main_view(request):
     return render(request, template_name='main_site.html')
 
+
 @login_required
 def user_profile_view(request):
     user = request.user
     return render(request, 'user_profile.html', {'user': user})
+
 
 @login_required
 def update_user_profile_view(request):
@@ -47,5 +48,3 @@ def update_user_profile_view(request):
         form = UserProfileForm(instance=user)
 
     return render(request, 'update_profile.html', {'form': form})
-
-
