@@ -65,5 +65,4 @@ class TrainingPlanInfo(models.Model):
     def __str__(self):
         return f"Zapytanie urzytkownika {self.user}, o plan trenigowy"
 
-    def get_fields(self):
-        return [(field.verbose_name, field.value_from_object(self)) for field in self.__class__._meta.fields]
+

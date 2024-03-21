@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse_lazy
 from django.views.generic import FormView, ListView, DetailView, UpdateView, DeleteView
+from django import forms
 
 from accounts.models import User
 from .forms import TrainingPlanInfoForm, ExerciseInPlanForm, TrainingPlanForm, AddExerciseForm
@@ -23,6 +24,8 @@ def create_training_plan_info(request):
             training_form = form.save(commit=False)
             training_form.user = request.user
             training_form.save()
+            training_form.goals.set(form.cleaned_data.get('goals'))
+            training_form.prefer_exercises.set(form.cleaned_data.get('prefer_exercises'))
             existing_plan_info = TrainingPlanInfo.objects.filter(user=request.user).first()
             return redirect('training_programs:plan_question_detail', pk=existing_plan_info.id)
         return render(request, 'training_programs/training_plan_info_form.html', {'form': form})
@@ -35,19 +38,29 @@ def create_training_plan_info(request):
 def create_training_plan(request):
     if request.method == 'POST':
         form = TrainingPlanForm(request.POST)
+        plan_owner_id = request.session.get('plan_owner_id')
+        plan_question_id = request.session.get('plan_question_id')
+        print(plan_owner_id)
         if form.is_valid():
             training_program_form = form.save(commit=False)
             training_program_form.trainer = request.user.trainer
             training_program_form.save()
+            TrainingPlanInfo.objects.filter(id=plan_question_id).delete()
             return redirect('accounts:main')
         return render(request, 'training_programs/create_training_plan.html', {'form': form})
 
     else:
-        form = TrainingPlanForm()
-        user_id = request.GET.get('user_id')
-        if user_id:
-            form.fields['plan_owner'].widget.attrs['HiddenInput'] = True
-
+        plan_owner_id = request.GET.get('plan_owner_id')
+        plan_question_id = request.GET.get('plan_question_id')
+        print(type(plan_question_id))
+        if plan_owner_id:
+            request.session['plan_owner_id'] = plan_owner_id
+            request.session['plan_question_id'] = plan_question_id
+            initial_data = {'plan_owner': plan_owner_id}
+            form = TrainingPlanForm(initial=initial_data)
+            form.fields['plan_owner'].widget = forms.HiddenInput()
+        else:
+            form = TrainingPlanForm()
     return render(request, 'training_programs/create_training_plan.html', {'form': form})
 
 
