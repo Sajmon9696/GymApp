@@ -25,6 +25,18 @@ class SignUpView(CreateView):
         return redirect('accounts:user_profile')
 
 
+class TrainerSignUpView(CreateView):
+    model = User
+    form_class = SignUpForm
+    template_name = 'registration/trainer_signup_form.html'
+
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.is_trainer = True
+        user.save()
+        login(self.request, user)
+        return redirect('accounts:user_profile')
+
 def main_view(request):
     return render(request, template_name='main_site.html')
 

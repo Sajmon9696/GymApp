@@ -1,7 +1,8 @@
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
-from accounts.views import main_view, SignUpView, user_profile_view, update_user_profile_view, MyLoginView
+from accounts.views import main_view, SignUpView, user_profile_view, update_user_profile_view, MyLoginView, \
+    TrainerSignUpView
 
 app_name = 'accounts'
 
@@ -10,6 +11,7 @@ urlpatterns = [
     path('login/', MyLoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('registration/', SignUpView.as_view(), name='register_user'),
+    path('trainer-registration/', TrainerSignUpView.as_view(), name='register_trainer'),
     path('profile/', user_profile_view, name='user_profile'),
     path('update_profile/', update_user_profile_view, name='update_user_profile'),
 
