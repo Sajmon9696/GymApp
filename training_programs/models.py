@@ -1,5 +1,8 @@
 from django.db import models
+from django.utils import timezone
+
 from accounts.models import Trainer, User
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 # Create your models here.
@@ -24,7 +27,6 @@ class Exercise(models.Model):
     description = models.TextField()
     link_to_youtube = models.URLField(blank=True, null=True)
 
-
     def __str__(self):
         return self.name
 
@@ -32,9 +34,11 @@ class Exercise(models.Model):
 class TrainingPlan(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
-    amount_of_days = models.PositiveIntegerField()
+    amount_of_days = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(7)])
     trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
-    plan_owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    plan_owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    duration_in_weeks = models.IntegerField(validators=[MinValueValidator(4), MaxValueValidator(12)], default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class TrainingDay(models.Model):
@@ -64,5 +68,3 @@ class TrainingPlanInfo(models.Model):
 
     def __str__(self):
         return f"Zapytanie urzytkownika {self.user}, o plan trenigowy"
-
-

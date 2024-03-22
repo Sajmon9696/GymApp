@@ -14,6 +14,8 @@
         <th scope="col">Program Name</th>
         <th scope="col">Owner</th>
         <th scope="col">Made by</th>
+        <th scope="col">Created date</th>
+        <th scope="col">Duration in weeeks</th>
         <th scope="col">Detail</th>
     </tr>
     </thead>
@@ -24,6 +26,8 @@
         <td>{{ training_plan.name }}</td>
         <td>{{ training_plan.plan_owner }}</td>
         <td>{{ training_plan.trainer }}</td>
+        <td>{{ training_plan.created_at }}</td>
+        <td>{{ training_plan.duration_in_weeks }}</td>
         <td><a href="{% url 'training_programs:training_plan_detail' training_plan.id %}">
             <button class="btn btn-outline-light btn-sm px-5" type="submit">Go to Detail</button>
         </a></td>
