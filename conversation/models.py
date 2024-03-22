@@ -8,6 +8,9 @@ from training_programs.models import TrainingPlan, TrainingPlanInfo
 
 
 class Conversation(models.Model):
+    """
+        Model reprezentujący konwersację pomiędzy użytkownikami.
+        """
     members = models.ManyToManyField(User, related_name='conversation')
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
@@ -15,6 +18,9 @@ class Conversation(models.Model):
 
 
 class ConversationMessage(models.Model):
+    """
+        Model reprezentujący wiadomość w ramach konwersacji.
+        """
     conversation = models.ForeignKey(Conversation, related_name='messages', on_delete=models.CASCADE)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)

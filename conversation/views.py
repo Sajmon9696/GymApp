@@ -13,6 +13,10 @@ from conversation.models import Conversation, ConversationMessage
 
 
 class NewMessageView(View):
+    """
+        Widok obsługujący tworzenie nowej wiadomości w konwersacji.
+        Umożliwia użytkownikowi wysłanie nowej wiadomości w ramach istniejącej lub nowo utworzonej konwersacji.
+        """
     template_name = 'conversation/new_message.html'
     model = ConversationMessage
     form_class = ConversationMessageForm
@@ -45,6 +49,10 @@ class NewMessageView(View):
 
 
 class InboxView(View):
+    """
+        Widok listy skrzynek odbiorczych użytkownika.
+        Wyświetla listę konwersacji, do których użytkownik jest członkiem.
+        """
     template_name = 'conversation/inbox.html'
     model = Conversation
 
@@ -56,6 +64,10 @@ class InboxView(View):
 
 
 class ConversationDetail(DetailView):
+    """
+        Widok szczegółów konwersacji.
+        Wyświetla szczegóły konwersacji oraz formularz do wysyłania nowych wiadomości.
+        """
     model = Conversation
     template_name = 'conversation/detail.html'
     context_object_name = 'conversation'

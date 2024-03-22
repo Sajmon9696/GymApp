@@ -14,6 +14,14 @@ from .models import TrainingPlan, TrainingDay, Exercise, TrainingPlanInfo
 # Create your views here.
 @login_required
 def create_training_plan_info(request):
+    """
+        Widok tworzenia zapytania o plan treningowy.
+        Sprawdza, czy istnieje już zapytanie o planie dla użytkownika.
+        Przekierowuje użytkownika do widoku detali pytania dotyczącego planu, jeśli już istnieją informacje o planie dla
+        tego użytkownika.
+        W przeciwnym razie, po zatwierdzeniu poprawnego formularza, zapisuje informacje o planie i przekierowuje
+        użytkownika do widoku detali pytania dotyczącego planu.
+        """
     existing_plan_info = TrainingPlanInfo.objects.filter(user=request.user).first()
     if existing_plan_info:
         return redirect('training_programs:plan_question_detail', pk=existing_plan_info.id)
@@ -36,6 +44,11 @@ def create_training_plan_info(request):
 
 @login_required
 def create_training_plan(request):
+    """
+        Widok tworzenia planu treningowego.
+        Po zatwierdzeniu formularza, zapisuje informacje o planie treningowym i
+        przekierowuje użytkownika do strony głównej konta.
+        """
     if request.method == 'POST':
         form = TrainingPlanForm(request.POST)
         plan_owner_id = request.session.get('plan_owner_id')
@@ -66,6 +79,10 @@ def create_training_plan(request):
 
 @receiver(post_save, sender=TrainingPlan)
 def create_training_days(sender, instance, created, **kwargs):
+    """
+        Funkcja obsługująca sygnał po zapisaniu nowego obiektu TrainingPlan.
+        Tworzy odpowiednią liczbę dni treningowych dla nowo utworzonego planu treningowego.
+        """
     if created:
         for day_number in range(1, instance.amount_of_days + 1):
             TrainingDay.objects.create(plan=instance, day_number=day_number)
@@ -73,6 +90,10 @@ def create_training_days(sender, instance, created, **kwargs):
 
 @login_required
 def create_training_plan_day(request, training_plan_id):
+    """
+        Widok tworzenia dnia planu treningowego.
+        Po zatwierdzeniu formularza, zapisuje nowy dzień treningowy przypisany do danego planu treningowego.
+        """
     training_plan = TrainingPlan.objects.get(pk=training_plan_id)
     training_day = TrainingDay.objects.filter(plan=training_plan_id)
 
@@ -95,6 +116,10 @@ def create_training_plan_day(request, training_plan_id):
 
 @login_required
 def training_plan_detail(request, training_plan_id):
+    """
+        Widok detali planu treningowego.
+        Wyświetla szczegóły planu treningowego oraz dni treningowych przypisanych do tego planu.
+        """
     training_plan = TrainingPlan.objects.get(pk=training_plan_id)
     training_days = training_plan.trainingday_set.all()
 
@@ -107,11 +132,17 @@ def training_plan_detail(request, training_plan_id):
 
 
 def display_exercises_view(request):
+    """
+        Widok wyświetlający listę ćwiczeń.
+        """
     return render(request, 'training_programs/display_exercises.html', context={'exercises': Exercise.objects.all()})
 
 
 @login_required
 def view_training_plans(request):
+    """
+        Widok wyświetlający listę planów treningowych.
+        """
     user = request.user
     if user.is_trainer:
         training_plans = TrainingPlan.objects.filter(trainer=user.id)
@@ -123,6 +154,9 @@ def view_training_plans(request):
 
 
 class AddExerciseFormView(FormView):
+    """
+        Widok formularza dodawania nowego ćwiczenia.
+        """
     template_name = 'training_programs/create_exercise.html'
     form_class = AddExerciseForm
     success_url = '/exercises/'
@@ -133,24 +167,38 @@ class AddExerciseFormView(FormView):
 
 
 class DisplayQuestionForPlan(ListView):
+    """
+       Widok wyświetlający listę pytań dotyczących planu treningowego.
+       """
     model = TrainingPlanInfo
     template_name = 'training_programs/list_of_plan_questions.html'
     context_object_name = 'plan_question'
 
 
 class QuestionForPlanDetailView(DetailView):
+    """
+        Widok detali pytania dotyczącego planu treningowego.
+        """
     model = TrainingPlanInfo
     template_name = 'training_programs/plan_questions_detail.html'
     context_object_name = 'plan_question'
 
 
 class ExerciseDetailView(DetailView):
+    """
+        Widok szczegółów ćwiczenia.
+        Wyświetla szczegóły danego ćwiczenia.
+        """
     model = Exercise
     template_name = 'training_programs/exercise_detail.html'
     context_object_name = 'exercise'
 
 
 class PlanQuestionUpdateView(UpdateView):
+    """
+        Widok aktualizacji pytania dotyczącego planu treningowego.
+        Umożliwia edycję istniejącego pytania dotyczącego planu treningowego.
+        """
     model = TrainingPlanInfo
     template_name = "training_programs/edit_plan_question.html"
     fields = ['goals', 'time_of_one_training_in_minutes', 'amount_of_days', 'prefer_exercises']
@@ -160,6 +208,10 @@ class PlanQuestionUpdateView(UpdateView):
 
 
 class PlanQuestionDeleteView(DeleteView):
+    """
+       Widok usuwania pytania dotyczącego planu treningowego.
+       Umożliwia usunięcie istniejącego pytania dotyczącego planu treningowego.
+       """
     model = TrainingPlanInfo
     template_name = "training_programs/delete_plan_question.html"
     success_url = reverse_lazy('training_programs:plan_request')

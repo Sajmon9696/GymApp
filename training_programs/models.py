@@ -8,6 +8,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 # Create your models here.
 
 class Goal(models.Model):
+    """Model reprezentujący cele treningowe."""
     name = models.CharField(max_length=128)
 
     def __str__(self):
@@ -15,6 +16,7 @@ class Goal(models.Model):
 
 
 class TypesOfExercises(models.Model):
+    """Model reprezentujący rodzaje ćwiczeń."""
     name = models.CharField(max_length=128)
 
     def __str__(self):
@@ -22,6 +24,7 @@ class TypesOfExercises(models.Model):
 
 
 class Exercise(models.Model):
+    """Model reprezentujący poszczególne ćwiczenia."""
     name = models.CharField(max_length=255)
     types = models.ForeignKey(TypesOfExercises, on_delete=models.CASCADE)
     description = models.TextField()
@@ -32,6 +35,7 @@ class Exercise(models.Model):
 
 
 class TrainingPlan(models.Model):
+    """Model reprezentujący plan treningowy."""
     name = models.CharField(max_length=255)
     description = models.TextField()
     amount_of_days = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(7)])
@@ -42,6 +46,7 @@ class TrainingPlan(models.Model):
 
 
 class TrainingDay(models.Model):
+    """Model reprezentujący dzień treningowy w ramach planu."""
     plan = models.ForeignKey(TrainingPlan, on_delete=models.CASCADE)
     day_number = models.PositiveIntegerField()
     exercises = models.ManyToManyField(Exercise, through='ExerciseInPlan')
@@ -51,6 +56,7 @@ class TrainingDay(models.Model):
 
 
 class ExerciseInPlan(models.Model):
+    """Model reprezentujący połączenie ćwiczenia z planem treningowym."""
     training_day = models.ForeignKey(TrainingDay, on_delete=models.CASCADE)
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     reps_amount = models.PositiveIntegerField()
@@ -60,6 +66,7 @@ class ExerciseInPlan(models.Model):
 
 
 class TrainingPlanInfo(models.Model):
+    """Model reprezentujący dodatkowe informacje o planie treningowym użytkownika."""
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     goals = models.ManyToManyField(Goal)
     time_of_one_training_in_minutes = models.PositiveIntegerField(help_text="Czas treningu w minutach")
