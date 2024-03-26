@@ -26,7 +26,7 @@ class TypesOfExercises(models.Model):
 class Exercise(models.Model):
     """Model reprezentujący poszczególne ćwiczenia."""
     name = models.CharField(max_length=255)
-    types = models.ForeignKey(TypesOfExercises, on_delete=models.CASCADE)
+    types = models.ManyToManyField(TypesOfExercises)
     description = models.TextField()
     link_to_youtube = models.URLField(blank=True, null=True)
 
