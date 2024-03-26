@@ -132,3 +132,5 @@ AUTH_USER_MODEL = 'accounts.User'
 LOGIN_REDIRECT_URL = 'accounts:main'
 
 LOGOUT_REDIRECT_URL = 'accounts:main'
+
+TEST_RUNNER = 'pytest_runner.TestRunner'
