@@ -46,3 +46,13 @@ class Trainer(Model):
 
     def __str__(self):
         return f'{self.user}'
+
+    def increment_number_of_plans_made(self):
+        self.number_of_plans_made += 1
+        self.save(update_fields=['number_of_plans_made'])
+
+    def increment_number_of_training_ppl(self):
+        self.number_of_training_ppl += 1
+        self.save(update_fields=['number_of_training_ppl'])
+
+

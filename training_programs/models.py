@@ -26,7 +26,7 @@ class TypesOfExercises(models.Model):
 class Exercise(models.Model):
     """Model reprezentujący poszczególne ćwiczenia."""
     name = models.CharField(max_length=255)
-    types = models.ManyToManyField(TypesOfExercises)
+    types = models.ForeignKey(TypesOfExercises, on_delete=models.CASCADE, null=True)
     description = models.TextField()
     link_to_youtube = models.URLField(blank=True, null=True)
 
@@ -43,6 +43,16 @@ class TrainingPlan(models.Model):
     plan_owner = models.ForeignKey(User, on_delete=models.CASCADE)
     duration_in_weeks = models.IntegerField(validators=[MinValueValidator(4), MaxValueValidator(12)], default=1)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:  # If this is a new object
+            self.trainer.increment_number_of_plans_made()
+        if self.plan_owner not in self.trainer.ppl_on_training.all():
+            self.trainer.ppl_on_training.add(self.plan_owner)
+            self.trainer.increment_number_of_training_ppl()
+        super().save(*args, **kwargs)
+
+
 
 
 class TrainingDay(models.Model):
