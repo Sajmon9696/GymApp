@@ -70,7 +70,7 @@ class AddExerciseForm(forms.ModelForm):
             'name': forms.TextInput(attrs={
                 'class': INPUT_CLASSES,
             }),
-            'types': forms.CheckboxSelectMultiple(),
+            'types': forms.Select(),
             'description': forms.TextInput(attrs={
                 'class': INPUT_CLASSES,
             }),

@@ -161,6 +161,9 @@ class AddExerciseFormView(FormView):
     form_class = AddExerciseForm
     success_url = '/exercises/'
 
+    def form_valid(self, form):
+        form.save()
+        return redirect(self.success_url)
 
 
 
